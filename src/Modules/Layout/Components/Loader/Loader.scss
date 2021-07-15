@@ -1,0 +1,39 @@
+.loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  background: #eee;
+  line-height: 0;
+
+  > .srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  > .indicator {
+    display: inline-block;
+    width: 25%;
+    height: 4px;
+    background: #333;
+    animation: loading 2s linear infinite;
+    position: relative;
+  }
+}
+
+@keyframes loading {
+  from {
+    left: -25%;
+  }
+  to {
+    left: 100%;
+  }
+}

@@ -1,0 +1,70 @@
+.productList {
+  table {
+    width: 100%;
+    border: 1px solid;
+    border-collapse: collapse;
+
+    tr {
+      td,
+      th {
+        text-align: left;
+        border: 1px solid;
+        padding: 8px;
+
+        &:last-child {
+          text-align: right;
+        }
+
+        > span {
+          display: inline-block;
+          border-radius: 4px;
+          padding: 2px 4px;
+          border: 1px solid;
+
+          &.rejected {
+            background-color: red;
+          }
+
+          &.accepted {
+            background-color: green;
+          }
+
+          &.unspecified {
+            background-color: #eee;
+          }
+        }
+
+        button {
+          border: 1px solid;
+          border-radius: 4px;
+          margin-left: 5px;
+          background-color: #eee;
+          color: inherit;
+          cursor: pointer;
+
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+
+      &.loading {
+        opacity: 0.5;
+        td,
+        th {
+          button {
+            cursor: progress;
+          }
+        }
+      }
+
+      &.hasError {
+        background-color: red;
+      }
+    }
+  }
+
+  .errorContainer {
+    color: red;
+  }
+}

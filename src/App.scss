@@ -1,0 +1,12 @@
+#app {
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+
+    > header {
+      h1 {
+        text-align: center;
+      }
+    }
+  }
+}
