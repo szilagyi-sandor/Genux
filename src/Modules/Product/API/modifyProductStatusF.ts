@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { createAsyncTO } from "_Helpers/createAsyncTO";
 import { productStatuses } from "../_Constants/productStatuses";
 import { ModifyProductStatusParam } from "./_Interfaces/ModifyProductStatusParam";
@@ -8,6 +9,7 @@ export const modifyProductStatusF = async ({
   status,
 }: ModifyProductStatusParam) => {
   console.log("modifyProductStatusF called");
+
   await createAsyncTO(1500);
 
   if (

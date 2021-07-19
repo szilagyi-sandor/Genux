@@ -1,7 +1,8 @@
-import { GCError } from "Modules/StateManagement/Genux/States/Connected/_Interfaces/GenuxConnectedError";
-import { GCAddErrorAction } from "./interfaces";
+import { GCAddErrorAction, GCAddErrorActionPayload } from "./interfaces";
 
-export const GCAddErrorAC = (payload: GCError): GCAddErrorAction => ({
+export const GCAddErrorAC = <T = undefined>(
+  payload: GCAddErrorActionPayload<T>
+): GCAddErrorAction<T> => ({
   type: "ADD_ERROR",
   payload,
 });

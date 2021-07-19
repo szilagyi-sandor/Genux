@@ -1,5 +1,12 @@
-// Removes an error item from the state.
-export interface GCRemoveErrorAction {
+export interface GCRemoveErrorAction<T = undefined> {
   type: "REMOVE_ERROR";
-  payload: number | string;
+  payload: GCRemoveErrorActionPayload<T>;
+}
+
+export interface GCRemoveErrorActionPayload<T = undefined> {
+  connectedId: number | string;
+  parallel?: boolean;
+  param?: {
+    value?: T;
+  };
 }

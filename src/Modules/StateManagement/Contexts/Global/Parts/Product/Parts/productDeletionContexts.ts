@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { useContext } from "react";
 
 import { DeleteProductParam } from "Modules/Product/API/_Interfaces/DeleteProductParam";

@@ -7,21 +7,23 @@ import { GDManageLoadingAC } from "Modules/StateManagement/Genux/Actions/Data/GD
 import { getError } from "_Helpers/getError";
 import { GlobalStores } from "../../../interfaces";
 import { ProductApiCallers } from "../interfaces";
+import { GDSetDataAC } from "Modules/StateManagement/Genux/Actions/Data/GDSetData/GDSetDataAC";
+import { GDSetErrorAC } from "Modules/StateManagement/Genux/Actions/Data/GDSetError/GDSetErrorAC";
 
 export const useListProductsACC = ({
   productStores: {
     list: [, listDispatch],
   },
 }: GlobalStores): ProductApiCallers["listProducts"] => {
-  const isRunning = useRef(false);
+  // This a advanced example, where we are letting this function to be called multiple times.
+  // The right usage would be simply cancel + return when the call is not the last one. In that case
+  // we would not need to keep track of calls in the component too.
+  const runningCounter = useRef(0);
 
   return useCallback(
     async (param, onSuccess, onError) => {
-      if (isRunning.current) {
-        return;
-      }
-
-      isRunning.current = true;
+      const order = runningCounter.current + 1;
+      runningCounter.current = order;
 
       try {
         listDispatch(GDManageLoadingAC(true));
@@ -29,26 +31,31 @@ export const useListProductsACC = ({
         const products = await listProductsF(param);
 
         listDispatch(
-          GDApiSuccessAC({
-            data: products,
-            param,
-          })
+          runningCounter.current === order
+            ? GDApiSuccessAC({
+                data: products,
+                param,
+              })
+            : GDSetDataAC({
+                data: products,
+                param,
+              })
         );
 
         onSuccess && onSuccess(products);
-      } catch (error) {
-        const _error = getError(error);
+      } catch (er) {
+        const error = getError(er);
 
         listDispatch(
-          GDApiErrorAC({
-            error: _error,
-            param,
-          })
+          runningCounter.current === order
+            ? GDApiErrorAC({
+                error: error,
+                param,
+              })
+            : GDSetErrorAC({ error: error, param })
         );
 
-        onError && onError(_error);
-      } finally {
-        isRunning.current = false;
+        onError && onError(error);
       }
     },
     [listDispatch]

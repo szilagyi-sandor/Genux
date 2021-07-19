@@ -1,3 +1,4 @@
+// CHECKED 1.0
 .productList {
   table {
     width: 100%;
@@ -22,7 +23,7 @@
           border: 1px solid;
 
           &.rejected {
-            background-color: red;
+            background-color: #dc2828;
           }
 
           &.accepted {
@@ -30,7 +31,7 @@
           }
 
           &.unspecified {
-            background-color: #eee;
+            background-color: #333;
           }
         }
 
@@ -38,7 +39,7 @@
           border: 1px solid;
           border-radius: 4px;
           margin-left: 5px;
-          background-color: #eee;
+          background-color: #333;
           color: inherit;
           cursor: pointer;
 
@@ -59,12 +60,12 @@
       }
 
       &.hasError {
-        background-color: red;
+        background-color: #dc2828;
       }
     }
   }
 
   .errorContainer {
-    color: red;
+    color: #dc2828;
   }
 }

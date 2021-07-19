@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { useCallback } from "react";
 
 import { listProductsF } from "Modules/Product/API/listProductsF";
@@ -21,30 +22,31 @@ export const useDeleteProductACC = ({
   useCallback(
     async (param, onSuccess, onError) => {
       try {
-        deletionDispatch(GCAddLoadingAC(param.id));
+        deletionDispatch(GCAddLoadingAC({ connectedId: param.id }));
 
         await deleteProductF(param);
+
         const products = await listProductsF(
           listState.param || defaultProductListParam
         );
+
         listDispatch(GDRefreshDataAC(products));
 
-        if (
-          detailsState.latestParam &&
-          detailsState.latestParam.id === param.id
-        ) {
+        if (detailsState.latestParam?.id === param.id) {
           detailsDispatch(GDRefreshDataAC(undefined));
         }
 
-        deletionDispatch(GCApiSuccessAC(param.id));
+        deletionDispatch(GCApiSuccessAC({ connectedId: param.id }));
 
         onSuccess && onSuccess();
-      } catch (error) {
-        const _error = getError(error);
+      } catch (er) {
+        const error = getError(er);
 
-        deletionDispatch(GCApiErrorAC({ ..._error, connectedId: param.id }));
+        deletionDispatch(
+          GCApiErrorAC({ error: { ...error, connectedId: param.id } })
+        );
 
-        onError && onError(_error);
+        onError && onError(error);
       }
     },
     [

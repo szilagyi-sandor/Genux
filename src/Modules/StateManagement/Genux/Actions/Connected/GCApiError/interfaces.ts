@@ -1,7 +1,14 @@
 import { GCError } from "Modules/StateManagement/Genux/States/Connected/_Interfaces/GenuxConnectedError";
 
-// Adds an error item to the state and removes the connected loading item. Handles the error of an API call.
-export interface GCApiErrorAction {
+export interface GCApiErrorAction<T = undefined> {
   type: "API_ERROR";
-  payload: GCError;
+  payload: GCApiErrorActionPayload<T>;
+}
+
+export interface GCApiErrorActionPayload<T = undefined> {
+  error: GCError;
+  parallel?: boolean;
+  param?: {
+    value?: T;
+  };
 }

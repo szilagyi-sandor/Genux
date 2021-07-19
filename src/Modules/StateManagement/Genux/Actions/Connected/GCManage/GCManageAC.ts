@@ -2,7 +2,7 @@ import { GCState } from "Modules/StateManagement/Genux/States/Connected/_Interfa
 import { GCManageAction } from "./interfaces";
 
 export const GCManageAC = <P = undefined>(
-  payload: GCState<P>
+  payload: Partial<GCState<P>>
 ): GCManageAction<P> => ({
   type: "MANAGE",
   payload,

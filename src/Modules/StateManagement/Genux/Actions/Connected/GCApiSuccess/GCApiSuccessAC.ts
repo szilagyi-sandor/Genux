@@ -1,8 +1,8 @@
-import { GCApiSuccessAction } from "./interfaces";
+import { GCApiSuccessAction, GCApiSuccessActionPayload } from "./interfaces";
 
-export const GCApiSuccessAC = (
-  payload: string | number
-): GCApiSuccessAction => ({
+export const GCApiSuccessAC = <T = undefined>(
+  payload: GCApiSuccessActionPayload<T>
+): GCApiSuccessAction<T> => ({
   type: "API_SUCCESS",
   payload,
 });

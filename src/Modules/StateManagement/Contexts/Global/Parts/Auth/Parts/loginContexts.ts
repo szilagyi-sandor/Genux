@@ -1,6 +1,8 @@
+// CHECKED 1.0
+import { useContext } from "react";
+
 import { LoginParam } from "Modules/Auth/API/_Interfaces/LoginParam";
 import { createGCContextPair } from "Modules/StateManagement/Genux/_Helpers/createGCContextPair";
-import { useContext } from "react";
 
 export const loginContexts = createGCContextPair<LoginParam>();
 

@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import React, { PropsWithChildren } from "react";
 
 import { ProductCPProps } from "./interfaces";

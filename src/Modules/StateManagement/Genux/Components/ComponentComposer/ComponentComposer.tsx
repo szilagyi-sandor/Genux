@@ -8,7 +8,7 @@ export default function ComponentComposer(
 ) {
   const { components, level, children } = props;
 
-  const _level = level ? level : 0;
+  const _level = level || 0;
   const currentComposedComponent = components[_level];
 
   if (!currentComposedComponent) {

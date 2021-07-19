@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { useCallback } from "react";
 
 import { listProductsF } from "Modules/Product/API/listProductsF";
@@ -22,7 +23,7 @@ export const useModifyProductStatusACC = ({
   useCallback(
     async (param, onSuccess, onError) => {
       try {
-        statusModificationDispatch(GCAddLoadingAC(param.id));
+        statusModificationDispatch(GCAddLoadingAC({ connectedId: param.id }));
 
         await modifyProductStatusF(param);
 
@@ -30,26 +31,25 @@ export const useModifyProductStatusACC = ({
           listState.param || defaultProductListParam
         );
 
-        if (
-          detailsState.latestParam &&
-          detailsState.latestParam.id === param.id
-        ) {
+        if (detailsState.latestParam?.id === param.id) {
           const product = await getProductDetailsF({ id: param.id });
+
           detailsDispatch(GDRefreshDataAC(product));
         }
 
         listDispatch(GDRefreshDataAC(products));
-        statusModificationDispatch(GCApiSuccessAC(param.id));
+
+        statusModificationDispatch(GCApiSuccessAC({ connectedId: param.id }));
 
         onSuccess && onSuccess();
-      } catch (error) {
-        const _error = getError(error);
+      } catch (er) {
+        const error = getError(er);
 
         statusModificationDispatch(
-          GCApiErrorAC({ ..._error, connectedId: param.id })
+          GCApiErrorAC({ error: { ...error, connectedId: param.id } })
         );
 
-        onError && onError(_error);
+        onError && onError(error);
       }
     },
     [

@@ -1,3 +1,4 @@
+// CHECKED 1.0
 .userBar {
   margin-bottom: 30px;
 
@@ -13,9 +14,10 @@
     text-align: right;
 
     button {
-      border: 1px solid #000;
+      border: 1px solid #eee;
       border-radius: 4px;
-      background: #fff;
+      background: #333;
+      color: #eee;
       padding: 4px 12px;
       font-weight: bold;
       cursor: pointer;

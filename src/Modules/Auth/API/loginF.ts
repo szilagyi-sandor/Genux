@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { checkCredentials } from "../_Helpers/checkCredentials";
 import { loginParamLocalStorageName } from "../_Constants/loginParamLocalStorageName";
 import { User } from "../_Interfaces/User";
@@ -6,6 +7,7 @@ import { createAsyncTO } from "_Helpers/createAsyncTO";
 
 export const loginF = async (param: LoginParam): Promise<User> => {
   console.log("loginF called");
+
   await createAsyncTO(2000);
 
   if (!checkCredentials(param)) {

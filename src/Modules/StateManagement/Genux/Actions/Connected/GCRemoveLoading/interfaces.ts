@@ -1,5 +1,12 @@
-// Removes a loading item from the state.
-export interface GCRemoveLoadingAction {
+export interface GCRemoveLoadingAction<T = undefined> {
   type: "REMOVE_LOADING";
-  payload: number | string;
+  payload: GCRemoveLoadingActionPayload<T>;
+}
+
+export interface GCRemoveLoadingActionPayload<T = undefined> {
+  connectedId: number | string;
+  parallel?: boolean;
+  param?: {
+    value?: T;
+  };
 }

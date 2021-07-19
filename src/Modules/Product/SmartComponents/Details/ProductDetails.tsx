@@ -1,6 +1,8 @@
+// CHECKED 1.0
+import React from "react";
+
 import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/userContexts";
 import { useProductDetailsSC } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productDetailsContexts";
-import React from "react";
 
 export default function ProductDetails() {
   const { data: user } = useUserSC();

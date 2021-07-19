@@ -1,12 +1,27 @@
-#app {
-  main {
-    max-width: 1240px;
-    margin: 0 auto;
+// CHECKED 1.0
+body {
+  color: #eee;
+  background: #000;
 
-    > header {
-      h1 {
-        text-align: center;
+  #app {
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+
+      > header {
+        h1 {
+          text-align: center;
+        }
       }
     }
   }
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 100%;
 }

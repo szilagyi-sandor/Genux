@@ -22,12 +22,18 @@ import ProductList from "Modules/Product/SmartComponents/List/ProductList";
 // That's the reason we're not adding a check inside the ACCs if they are already loading with the same params.
 
 // GenuxDataStates do not support parallel calls. For example the first successful call will set the loading to false and will not
-// care about a second one still running. Scenarioes like this should be prevented.
-// There's an example on how to prevent them at useListProductsACC and useGetProductDetailsACC.
+// care about a second one still running. Scenarioes like this should be handled manually.
+// There's an example on how to handle them at useListProductsACC and useGetProductDetailsACC.
+
+// TODO: Double comments should be put into parent a parent folder. any -> ccc solution
+// TODO: namings -> when shorten and use shorten version everywhere by not exporting the longer one.
+// TODO: Store as interface for easier usage + disptach + genux state !! make sure it's all easy to understand
+// PARALLEL ACTIONS ARE NOT USED ANYWHERE -> CHECK DISABLED BUTTON
 
 // TODO: Future improvements:
 // - ACC templates
 // - Parallel call prevention hook -> usecallback with an extra useref
+// - Axios instead of default fetch
 
 function App() {
   return (
@@ -59,6 +65,7 @@ function App() {
 // SC - StateContext
 // DC - DispatchContext
 // ACC - ApiCallerCreator
+// fooBarF - fooBarFetcher
 
 // GDState - GenuxDataState
 // GDReducer - GenuxDataReducer

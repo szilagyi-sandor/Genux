@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { createAsyncTO } from "_Helpers/createAsyncTO";
 import { Product } from "../_Interfaces/Product";
 import { GetProductDetailsParam } from "./_Interfaces/GetProductDetailsParam";
@@ -7,6 +8,7 @@ export const getProductDetailsF = async ({
   id,
 }: GetProductDetailsParam): Promise<Product> => {
   console.log("getProductDetailsF called");
+
   await createAsyncTO(2000);
 
   const product = mockedProducts.find((item) => item.id === id);

@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { createAsyncTO } from "_Helpers/createAsyncTO";
 import { productReorderTypes } from "../_Constants/productReorderTypes";
 import { MoveProductParam } from "./_Interfaces/MoveProductParam";
@@ -5,6 +6,7 @@ import { mockedProducts } from "./_mock";
 
 export const moveProductF = async ({ id, reorderType }: MoveProductParam) => {
   console.log("moveProductF called");
+
   await createAsyncTO(1500);
 
   if (
@@ -31,7 +33,6 @@ export const moveProductF = async ({ id, reorderType }: MoveProductParam) => {
     throw new Error("Invalid request.");
   }
 
-  // modify
   const targetItem = mockedProducts[index];
   let connectedIndex: number;
 

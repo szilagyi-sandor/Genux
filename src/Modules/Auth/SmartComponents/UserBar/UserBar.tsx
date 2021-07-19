@@ -1,5 +1,6 @@
 import React from "react";
 
+// CHECKED 1.0
 import "./UserBar.scss";
 
 import { useAuthApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authApiCallersContext";
@@ -9,11 +10,12 @@ import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Pa
 export function UserBar() {
   const { data } = useUserSC();
   const { loadingIds } = useLogoutSC();
+
   const { logout } = useAuthApiCallers();
 
   return (
     <div className="userBar">
-      <span className="userName">{data ? data.name : "Visitor"}</span>
+      <span className="userName">{data?.name || "Visitor"}</span>
 
       {data && (
         <div className="btnContainer">

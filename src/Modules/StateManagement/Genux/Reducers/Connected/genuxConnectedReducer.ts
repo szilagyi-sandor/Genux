@@ -3,6 +3,8 @@ import { defaultGCState } from "../../States/Connected/_Constants/defaultGCState
 import { GCState } from "../../States/Connected/_Interfaces/GenuxItemState";
 import { removeFromArray } from "../../_Helpers/removeFromArray";
 
+// TODO: desctruction usage
+// TODO: Add helpers
 export const genuxConnectedReducer = <P = undefined>(
   state: GCState<P>,
   action: GCAction<P>
@@ -18,71 +20,116 @@ export const genuxConnectedReducer = <P = undefined>(
       return defaultGCState;
 
     case "MANAGE":
-      return action.payload;
+      return {
+        ...state,
+        ...action.payload,
+      };
 
     case "MANAGE_LOADING":
       return {
         ...state,
-        loadingIds: action.payload,
+        loadingIds: action.payload.connectedIds,
+        // TODO: his param logic is almost in everywhere.
+        param: action.payload.param ? action.payload.param.value : state.param,
       };
 
     case "ADD_LOADING":
       return {
         ...state,
-        loadingIds: [...state.loadingIds, action.payload],
+        // TODO: Make this better -> doing the same thing 2x
+        loadingIds:
+          !action.payload.parallel &&
+          state.loadingIds.includes(action.payload.connectedId)
+            ? state.loadingIds
+            : [...state.loadingIds, action.payload.connectedId],
       };
 
     case "REMOVE_LOADING":
       return {
         ...state,
-        loadingIds: removeFromArray(
-          state.loadingIds,
-          (id) => id === action.payload
-        ),
+        loadingIds: action.payload.parallel
+          ? removeFromArray(
+              state.loadingIds,
+              (id) => id === action.payload.connectedId
+            )
+          : state.loadingIds.filter((id) => id !== action.payload.connectedId),
+        param: action.payload.param ? action.payload.param.value : state.param,
       };
 
     case "MANAGE_ERROR":
       return {
         ...state,
-        errors: action.payload,
+        errors: action.payload.errors,
+        param: action.payload.param ? action.payload.param.value : state.param,
       };
 
     case "ADD_ERROR":
       return {
         ...state,
-        errors: [...state.errors, action.payload],
+        errors:
+          !action.payload.parallel &&
+          state.errors.find(
+            (er) => er.connectedId === action.payload.error.connectedId
+          )
+            ? state.errors
+            : [...state.errors, action.payload.error],
+        param: action.payload.param ? action.payload.param.value : state.param,
       };
 
     case "REMOVE_ERROR":
       return {
         ...state,
-        errors: removeFromArray(
-          state.errors,
-          (error) => error.connectedId === action.payload
-        ),
+        errors: action.payload.parallel
+          ? removeFromArray(
+              state.errors,
+              (error) => error.connectedId === action.payload.connectedId
+            )
+          : state.errors.filter(
+              (error) => error.connectedId !== action.payload.connectedId
+            ),
+        param: action.payload.param ? action.payload.param.value : state.param,
       };
 
     case "API_SUCCESS":
       return {
         ...state,
-        loadingIds: removeFromArray(
-          state.loadingIds,
-          (id) => id === action.payload
-        ),
-        errors: removeFromArray(
-          state.errors,
-          (error) => error.connectedId === action.payload
-        ),
+        loadingIds: action.payload.parallel
+          ? removeFromArray(
+              state.loadingIds,
+              (id) => id === action.payload.connectedId
+            )
+          : state.loadingIds.filter((id) => id !== action.payload.connectedId),
+
+        errors: action.payload.parallel
+          ? removeFromArray(
+              state.errors,
+              (error) => error.connectedId === action.payload.connectedId
+            )
+          : state.errors.filter(
+              (error) => error.connectedId !== action.payload.connectedId
+            ),
+        param: action.payload.param ? action.payload.param.value : state.param,
       };
 
     case "API_ERROR":
       return {
         ...state,
-        loadingIds: removeFromArray(
-          state.loadingIds,
-          (id) => id === action.payload.connectedId
-        ),
-        errors: [...state.errors, action.payload],
+        loadingIds: action.payload.parallel
+          ? removeFromArray(
+              state.loadingIds,
+              (id) => id === action.payload.error.connectedId
+            )
+          : state.loadingIds.filter(
+              (id) => id !== action.payload.error.connectedId
+            ),
+
+        errors:
+          !action.payload.parallel &&
+          state.errors.find(
+            (er) => er.connectedId === action.payload.error.connectedId
+          )
+            ? state.errors
+            : [...state.errors, action.payload.error],
       };
 
     default:

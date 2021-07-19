@@ -1,7 +1,13 @@
 import { GCError } from "Modules/StateManagement/Genux/States/Connected/_Interfaces/GenuxConnectedError";
 
-// Manages all the error items together.
-export interface GCManageErrorAction {
+export interface GCManageErrorAction<T = undefined> {
   type: "MANAGE_ERROR";
-  payload: GCError[];
+  payload: GCManageErrorActionPayload<T>;
+}
+
+export interface GCManageErrorActionPayload<T = undefined> {
+  errors: GCError[];
+  param?: {
+    value?: T;
+  };
 }

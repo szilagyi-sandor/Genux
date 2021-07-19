@@ -1,20 +1,23 @@
+// CHECKED 1.0
 import React from "react";
 
 import "./LoginForm.scss";
 
-import { manageParamAC } from "Modules/StateManagement/Genux/Actions/_Shared/ManageParam/manageParamAC";
-import { useAuthApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authApiCallersContext";
-import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/userContexts";
 import {
   useLoginDC,
   useLoginSC,
 } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/loginContexts";
+import { manageParamAC } from "Modules/StateManagement/Genux/Actions/_Shared/ManageParam/manageParamAC";
+import { useAuthApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authApiCallersContext";
+import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/userContexts";
 
 export default function LoginForm() {
   // Here's an example on how to use the param in GenuxDataStore.
   const { data } = useUserSC();
   const { param, errors, loadingIds } = useLoginSC();
+
   const loginDispatch = useLoginDC();
+
   const { login } = useAuthApiCallers();
 
   if (data) {
@@ -26,9 +29,10 @@ export default function LoginForm() {
       className="loginForm"
       onSubmit={(e) => {
         e.preventDefault();
+
         login({
-          username: param ? param.username : "",
-          password: param ? param.password : "",
+          username: param?.username || "",
+          password: param?.password || "",
         });
       }}
     >
@@ -42,7 +46,7 @@ export default function LoginForm() {
             loginDispatch(
               manageParamAC({
                 username: e.target.value,
-                password: param ? param.password : "",
+                password: param?.password || "",
               })
             )
           }
@@ -61,7 +65,7 @@ export default function LoginForm() {
             loginDispatch(
               manageParamAC({
                 password: e.target.value,
-                username: param ? param.username : "",
+                username: param?.username || "",
               })
             )
           }

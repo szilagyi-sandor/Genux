@@ -7,7 +7,7 @@ export default function ContextComposer(
 ) {
   const { contexts, level, children } = props;
 
-  const _level = level ? level : 0;
+  const _level = level || 0;
   const currentComposedContext = contexts[_level];
 
   if (!currentComposedContext) {

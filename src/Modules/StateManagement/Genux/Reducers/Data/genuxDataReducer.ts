@@ -17,7 +17,10 @@ export const genuxDataReducer = <P = undefined, D = undefined>(
       return createDefaultGDState(action.payload);
 
     case "MANAGE":
-      return action.payload;
+      return {
+        ...state,
+        ...action.payload,
+      };
 
     case "MANAGE_LOADING":
       return {

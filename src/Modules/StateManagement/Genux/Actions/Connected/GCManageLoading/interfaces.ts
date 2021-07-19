@@ -1,5 +1,11 @@
-// Manages all the loading items together.
-export interface GCManageLoadingAction {
+export interface GCManageLoadingAction<T = undefined> {
   type: "MANAGE_LOADING";
-  payload: Array<number | string>;
+  payload: GCManageLoadingActionPayload<T>;
+}
+
+export interface GCManageLoadingActionPayload<T = undefined> {
+  connectedIds: Array<number | string>;
+  param?: {
+    value?: T;
+  };
 }

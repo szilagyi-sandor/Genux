@@ -1,5 +1,9 @@
-// Adds a loading item to the state. Usually handles the start of an API call.
-export interface GCAddLoadingAction {
+export interface GCAddLoadingAction<T = undefined> {
   type: "ADD_LOADING";
-  payload: number | string;
+  payload: GCAddLoadingActionPayload<T>;
+}
+
+export interface GCAddLoadingActionPayload<T = undefined> {
+  connectedId: number | string;
+  parallel?: boolean;
 }

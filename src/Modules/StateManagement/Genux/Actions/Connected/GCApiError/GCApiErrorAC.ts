@@ -1,7 +1,8 @@
-import { GCError } from "Modules/StateManagement/Genux/States/Connected/_Interfaces/GenuxConnectedError";
-import { GCApiErrorAction } from "./interfaces";
+import { GCApiErrorAction, GCApiErrorActionPayload } from "./interfaces";
 
-export const GCApiErrorAC = (payload: GCError): GCApiErrorAction => ({
+export const GCApiErrorAC = <T = undefined>(
+  payload: GCApiErrorActionPayload<T>
+): GCApiErrorAction<T> => ({
   type: "API_ERROR",
   payload,
 });

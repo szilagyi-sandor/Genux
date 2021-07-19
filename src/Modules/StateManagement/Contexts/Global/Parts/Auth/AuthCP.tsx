@@ -1,20 +1,21 @@
+// CHECKED 1.0
 import React, { PropsWithChildren, useEffect } from "react";
 
 import { AuthCPProps } from "./interfaces";
-import { getUserF } from "../../../../../Auth/API/getUserF";
 import { userContexts } from "./Parts/userContexts";
-import { User } from "../../../../../Auth/_Interfaces/User";
-import { GDManageLoadingAC } from "../../../../Genux/Actions/Data/GDManageLoading/GDManageLoadingAC";
-import { GDApiSuccessAC } from "../../../../Genux/Actions/Data/GDApiSuccess/GDApiSuccessAC";
-import { GDApiErrorAC } from "../../../../Genux/Actions/Data/GDApiError/GDApiErrorAC";
 import { authApiCallersContext } from "./Parts/authApiCallersContext";
-import { loginParamLocalStorageName } from "../../../../../Auth/_Constants/loginParamLocalStorageName";
-import { getError } from "../../../../../../_Helpers/getError";
-import { Undefinedable } from "../../../../Genux/_Interfaces/Undefinedable";
 import { loginContexts } from "./Parts/loginContexts";
 import { logoutContexts } from "./Parts/logoutContexts";
 import ContextComposer from "Modules/StateManagement/Genux/Components/ContextComposer/ContextComposer";
 import { cx4 } from "Modules/StateManagement/Genux/Components/ContextComposer/_Helpers/createComposedContextComponents";
+import { GDManageLoadingAC } from "Modules/StateManagement/Genux/Actions/Data/GDManageLoading/GDManageLoadingAC";
+import { User } from "Modules/Auth/_Interfaces/User";
+import { loginParamLocalStorageName } from "Modules/Auth/_Constants/loginParamLocalStorageName";
+import { getUserF } from "Modules/Auth/API/getUserF";
+import { GDApiSuccessAC } from "Modules/StateManagement/Genux/Actions/Data/GDApiSuccess/GDApiSuccessAC";
+import { Undefinedable } from "Modules/StateManagement/Genux/_Interfaces/Undefinedable";
+import { GDApiErrorAC } from "Modules/StateManagement/Genux/Actions/Data/GDApiError/GDApiErrorAC";
+import { getError } from "_Helpers/getError";
 
 export const AuthCP = ({
   authStores,
@@ -45,7 +46,6 @@ export const AuthCP = ({
           });
         }
 
-        // Setting user.
         userDispatch(
           GDApiSuccessAC<undefined, Undefinedable<User>>({
             data: user,
@@ -53,7 +53,6 @@ export const AuthCP = ({
           })
         );
       } catch (error) {
-        // Setting user error.
         userDispatch(
           GDApiErrorAC({
             error: getError(error),

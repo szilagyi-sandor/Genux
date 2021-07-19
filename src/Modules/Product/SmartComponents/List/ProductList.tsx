@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+// CHECKED 1.0
+import React, { useEffect, useRef, useState } from "react";
 
 import "./ProductList.scss";
 
@@ -19,15 +20,16 @@ import { GDSetDataAC } from "Modules/StateManagement/Genux/Actions/Data/GDSetDat
 import { GetProductDetailsParam } from "Modules/Product/API/_Interfaces/GetProductDetailsParam";
 import { Undefinedable } from "Modules/StateManagement/Genux/_Interfaces/Undefinedable";
 import { Product } from "Modules/Product/_Interfaces/Product";
+import Pager from "Modules/Layout/Components/Pager/Pager";
+import { calculateProductPagerValues } from "./_Helpers/calculateProductPagerValues";
+import { ProductCallCounter } from "./interfaces";
+import { ListProductsParam } from "Modules/Product/API/_Interfaces/ListProductsParam";
+import ProductFilter from "../Filter/ProductFilter";
 
 export default function ProductList() {
   const { data: user } = useUserSC();
-
-  const { data, error } = useProductListSC();
-
+  const { data, error, latestParam, loading } = useProductListSC();
   const { data: details } = useProductDetailsSC();
-  const detailsDispatch = useProductDetailsDC();
-
   const { loadingIds: statusLoadingIds, errors: statusErrors } =
     useProductStatusModificationSC();
   const { loadingIds: movementLoadingIds, errors: movementErrors } =
@@ -35,8 +37,7 @@ export default function ProductList() {
   const { loadingIds: deletionLoadingIds, errors: deletionErrors } =
     useProductDeletionSC();
 
-  const allErrors = [...statusErrors, ...movementErrors, ...deletionErrors];
-  const allErrorIds = allErrors.map((e) => e.connectedId);
+  const detailsDispatch = useProductDetailsDC();
 
   const {
     listProducts,
@@ -46,9 +47,65 @@ export default function ProductList() {
     getProductDetails,
   } = useProductApiCallers();
 
+  const allErrors = [...statusErrors, ...movementErrors, ...deletionErrors];
+  const allErrorIds = allErrors.map((e) => e.connectedId);
+
+  // Creating a call counter to make parallel calls possible.
+  const callCounterRef = useRef<ProductCallCounter>({
+    known: 0,
+    // Has to be -1 for the first initial run.
+    handled: -1,
+  });
+
+  // Storing the param in state as a mirror. This mirror is needed because this is
+  // only the state of this pager. if this modified in a form or something,
+  // we dont want this to be modified.
+  const [latestParamMirror, setLatestParamMirror] =
+    useState<Undefinedable<ListProductsParam>>(undefined);
+
   useEffect(() => {
     listProducts(defaultProductListParam);
   }, [listProducts]);
+
+  // Initiliaze the latestParamMirror.
+  useEffect(() => {
+    if (!latestParamMirror && latestParam) {
+      setLatestParamMirror(latestParam);
+    }
+  }, [latestParamMirror, latestParam]);
+
+  // We keep track of latestParam modifications, but if this runs more than
+  // that it means someone else updated it. In that case we need to update
+  // the state too.
+  useEffect(() => {
+    if (!latestParam) {
+      return;
+    }
+
+    callCounterRef.current.handled++;
+    const { handled, known } = callCounterRef.current;
+
+    const needsRefresh = handled > known;
+
+    if (needsRefresh) {
+      callCounterRef.current = {
+        handled: 0,
+        known: 0,
+      };
+
+      setLatestParamMirror(latestParam);
+    }
+  }, [latestParam]);
+
+  // Right usage is this!!
+  // This is all you need if you cancel the previous calls in useListProductsACC.
+  // That's because the latest param will only be updated when the last one finished.
+  // useEffect(() => {
+  //   setLatestParamMirror(latestParam);
+  // }, [latestParam]);
+
+  const pagerValues = calculateProductPagerValues(data, latestParamMirror);
+  const { currentPage, pageCount } = pagerValues;
 
   if (!user) {
     return null;
@@ -57,6 +114,8 @@ export default function ProductList() {
   return (
     <div className="productList">
       <h2>List</h2>
+
+      <ProductFilter />
 
       {data ? (
         <div className="tableContainer">
@@ -112,7 +171,7 @@ export default function ProductList() {
                       <td>
                         <button
                           onClick={() => {
-                            if (details && details.id === id) {
+                            if (details?.id === id) {
                               detailsDispatch(
                                 GDSetDataAC<
                                   GetProductDetailsParam,
@@ -128,7 +187,7 @@ export default function ProductList() {
                             getProductDetails({ id });
                           }}
                         >
-                          {details && details.id === id ? "Hide " : "Show "}
+                          {details?.id === id ? "Hide " : "Show "}
                           details
                         </button>
 
@@ -140,7 +199,7 @@ export default function ProductList() {
                                 status: productStatuses.accepted.id,
                               })
                             }
-                            // disabled={isLoading}
+                            disabled={isLoading}
                           >
                             Accept
                           </button>
@@ -211,6 +270,25 @@ export default function ProductList() {
               <p className="error">{error.text}</p>
             ))}
           </div>
+
+          <Pager
+            currentPage={currentPage}
+            pageCount={pageCount}
+            disabled={!!latestParam?.search && loading}
+            setPage={(page) => {
+              const skip = defaultProductListParam.take * (page - 1);
+              const newListParam = {
+                ...defaultProductListParam,
+                ...latestParam,
+                skip,
+              };
+
+              callCounterRef.current.known++;
+              listProducts(newListParam);
+
+              setLatestParamMirror(newListParam);
+            }}
+          />
         </div>
       ) : error ? (
         <div className="errorContainer">

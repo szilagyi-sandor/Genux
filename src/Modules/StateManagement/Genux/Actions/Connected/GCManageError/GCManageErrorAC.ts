@@ -1,9 +1,8 @@
-import { GCError } from "Modules/StateManagement/Genux/States/Connected/_Interfaces/GenuxConnectedError";
-import { GCManageErrorAction } from "./interfaces";
+import { GCManageErrorAction, GCManageErrorActionPayload } from "./interfaces";
 
-export const GCManageErrorAC = (
-  payload: Array<GCError>
-): GCManageErrorAction => ({
+export const GCManageErrorAC = <T = undefined>(
+  payload: GCManageErrorActionPayload<T>
+): GCManageErrorAction<T> => ({
   type: "MANAGE_ERROR",
   payload,
 });

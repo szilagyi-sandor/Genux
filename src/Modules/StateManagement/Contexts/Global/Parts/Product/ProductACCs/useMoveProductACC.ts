@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { useCallback } from "react";
 
 import { listProductsF } from "Modules/Product/API/listProductsF";
@@ -20,7 +21,7 @@ export const useMoveProductACC = ({
   useCallback(
     async (param, onSuccess, onError) => {
       try {
-        movementDispatch(GCAddLoadingAC(param.id));
+        movementDispatch(GCAddLoadingAC({ connectedId: param.id }));
 
         await moveProductF(param);
 
@@ -29,15 +30,18 @@ export const useMoveProductACC = ({
         );
 
         listDispatch(GDRefreshDataAC(products));
-        movementDispatch(GCApiSuccessAC(param.id));
+
+        movementDispatch(GCApiSuccessAC({ connectedId: param.id }));
 
         onSuccess && onSuccess();
-      } catch (error) {
-        const _error = getError(error);
+      } catch (er) {
+        const error = getError(er);
 
-        movementDispatch(GCApiErrorAC({ ..._error, connectedId: param.id }));
+        movementDispatch(
+          GCApiErrorAC({ error: { ...error, connectedId: param.id } })
+        );
 
-        onError && onError(_error);
+        onError && onError(error);
       }
     },
     [listDispatch, movementDispatch, listState.param]

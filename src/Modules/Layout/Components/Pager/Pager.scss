@@ -1,0 +1,27 @@
+.pager {
+  margin: 15px 0;
+  text-align: center;
+
+  ul {
+    list-style-type: none;
+    display: inline-flex;
+
+    li {
+      margin: 0 10px;
+
+      button {
+        min-width: 72px;
+        border: 1px solid;
+        border-radius: 4px;
+        margin-left: 5px;
+        background-color: #333;
+        color: inherit;
+        cursor: pointer;
+
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

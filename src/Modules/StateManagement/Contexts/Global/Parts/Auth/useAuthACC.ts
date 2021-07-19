@@ -1,5 +1,5 @@
+// CHECKED 1.0
 import { AuthApiCallers } from "./interfaces";
-
 import { useLoginACC } from "./AuthACCs/useLoginACC";
 import { useLogoutACC } from "./AuthACCs/useLogoutACC";
 import { GlobalStores } from "../../interfaces";

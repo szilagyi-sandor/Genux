@@ -1,5 +1,12 @@
-// Removes a loading and an error item from the state. Handles the success of an API call.
-export interface GCApiSuccessAction {
+export interface GCApiSuccessAction<T = undefined> {
   type: "API_SUCCESS";
-  payload: string | number;
+  payload: GCApiSuccessActionPayload<T>;
+}
+
+export interface GCApiSuccessActionPayload<T = undefined> {
+  connectedId: string | number;
+  parallel?: boolean;
+  param?: {
+    value?: T;
+  };
 }

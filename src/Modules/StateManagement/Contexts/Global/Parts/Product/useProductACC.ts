@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GlobalStores } from "../../interfaces";
 import { ProductApiCallers } from "./interfaces";
 import { useDeleteProductACC } from "./ProductACCs/useDeleteProductACC";

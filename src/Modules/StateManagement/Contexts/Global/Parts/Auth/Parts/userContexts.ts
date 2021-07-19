@@ -1,8 +1,9 @@
+// CHECKED 1.0
 import { useContext } from "react";
 
-import { User } from "../../../../../../Auth/_Interfaces/User";
-import { createGDContextPair } from "../../../../../Genux/_Helpers/createGDContextPair";
-import { Undefinedable } from "../../../../../Genux/_Interfaces/Undefinedable";
+import { User } from "Modules/Auth/_Interfaces/User";
+import { createGDContextPair } from "Modules/StateManagement/Genux/_Helpers/createGDContextPair";
+import { Undefinedable } from "Modules/StateManagement/Genux/_Interfaces/Undefinedable";
 
 export const userContexts = createGDContextPair<undefined, Undefinedable<User>>(
   undefined

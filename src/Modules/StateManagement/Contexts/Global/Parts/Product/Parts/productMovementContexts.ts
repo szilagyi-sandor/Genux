@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { useContext } from "react";
 
 import { createGCContextPair } from "Modules/StateManagement/Genux/_Helpers/createGCContextPair";

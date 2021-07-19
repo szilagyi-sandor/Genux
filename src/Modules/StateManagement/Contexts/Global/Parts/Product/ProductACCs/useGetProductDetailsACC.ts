@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { useCallback, useRef } from "react";
 
 import { GlobalStores } from "../../../interfaces";
@@ -13,16 +14,18 @@ export const useGetProductDetailsACC = ({
     details: [, detailsDispatch],
   },
 }: GlobalStores): ProductApiCallers["getProductDetails"] => {
+  // This is an example to prevent multiple calls at the same time.
   const isRunning = useRef(false);
 
   return useCallback(
     async (param, onSuccess, onError) => {
-      if (isRunning.current) {
-        return;
-      }
-      isRunning.current = true;
-
       try {
+        if (isRunning.current) {
+          return;
+        }
+
+        isRunning.current = true;
+
         detailsDispatch(GDManageLoadingAC(true));
 
         const product = await getProductDetailsF(param);
@@ -35,18 +38,20 @@ export const useGetProductDetailsACC = ({
         );
 
         onSuccess && onSuccess(product);
-      } catch (error) {
-        const _error = getError(error);
+
+        isRunning.current = false;
+      } catch (er) {
+        const error = getError(er);
 
         detailsDispatch(
           GDApiErrorAC({
-            error: _error,
+            error: error,
             param,
           })
         );
 
-        onError && onError(_error);
-      } finally {
+        onError && onError(error);
+
         isRunning.current = false;
       }
     },

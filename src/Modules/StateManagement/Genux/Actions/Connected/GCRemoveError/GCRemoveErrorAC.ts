@@ -1,8 +1,8 @@
-import { GCRemoveErrorAction } from "./interfaces";
+import { GCRemoveErrorAction, GCRemoveErrorActionPayload } from "./interfaces";
 
-export const GCRemoveErrorAC = (
-  payload: number | string
-): GCRemoveErrorAction => ({
+export const GCRemoveErrorAC = <T = undefined>(
+  payload: GCRemoveErrorActionPayload<T>
+): GCRemoveErrorAction<T> => ({
   type: "REMOVE_ERROR",
   payload,
 });

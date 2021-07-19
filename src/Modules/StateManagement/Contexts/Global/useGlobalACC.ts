@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GlobalApiCallers, GlobalStores } from "./interfaces";
 import { useAuthACC } from "./Parts/Auth/useAuthACC";
 import { useProductACC } from "./Parts/Product/useProductACC";

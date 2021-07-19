@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { DeleteProductParam } from "Modules/Product/API/_Interfaces/DeleteProductParam";
 import { GetProductDetailsParam } from "Modules/Product/API/_Interfaces/GetProductDetailsParam";
 import { ListProductsParam } from "Modules/Product/API/_Interfaces/ListProductsParam";

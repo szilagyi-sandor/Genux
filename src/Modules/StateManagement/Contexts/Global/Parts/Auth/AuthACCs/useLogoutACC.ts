@@ -2,14 +2,14 @@ import { useCallback } from "react";
 
 import { AuthApiCallers } from "../interfaces";
 import { GlobalStores } from "../../../interfaces";
-import { GDApiSuccessAC } from "../../../../../Genux/Actions/Data/GDApiSuccess/GDApiSuccessAC";
-import { logoutF } from "../../../../../../Auth/API/logoutF";
-import { Undefinedable } from "../../../../../Genux/_Interfaces/Undefinedable";
-import { User } from "../../../../../../Auth/_Interfaces/User";
-import { getError } from "../../../../../../../_Helpers/getError";
 import { GCAddLoadingAC } from "Modules/StateManagement/Genux/Actions/Connected/GCAddLoading/GCAddLoadingAC";
 import { GCApiSuccessAC } from "Modules/StateManagement/Genux/Actions/Connected/GCApiSuccess/GCApiSuccessAC";
 import { GCApiErrorAC } from "Modules/StateManagement/Genux/Actions/Connected/GCApiError/GCApiErrorAC";
+import { logoutF } from "Modules/Auth/API/logoutF";
+import { GDApiSuccessAC } from "Modules/StateManagement/Genux/Actions/Data/GDApiSuccess/GDApiSuccessAC";
+import { Undefinedable } from "Modules/StateManagement/Genux/_Interfaces/Undefinedable";
+import { User } from "Modules/Auth/_Interfaces/User";
+import { getError } from "_Helpers/getError";
 
 export const useLogoutACC = ({
   authStores: {
@@ -20,7 +20,7 @@ export const useLogoutACC = ({
   useCallback(
     async (onSuccess, onError) => {
       try {
-        logoutDispatch(GCAddLoadingAC(1));
+        logoutDispatch(GCAddLoadingAC({ connectedId: 1 }));
 
         await logoutF();
 
@@ -31,13 +31,15 @@ export const useLogoutACC = ({
           })
         );
 
-        logoutDispatch(GCApiSuccessAC(1));
+        logoutDispatch(GCApiSuccessAC({ connectedId: 1 }));
 
         onSuccess && onSuccess();
-      } catch (error) {
-        const _error = getError(error);
-        logoutDispatch(GCApiErrorAC({ ..._error, connectedId: 1 }));
-        onError && onError(_error);
+      } catch (er) {
+        const error = getError(er);
+
+        logoutDispatch(GCApiErrorAC({ error: { ...error, connectedId: 1 } }));
+
+        onError && onError(error);
       }
     },
     [userDispatch, logoutDispatch]
