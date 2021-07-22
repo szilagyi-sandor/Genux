@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { ManageParamAction } from "../_Shared/ManageParam/interfaces";
 import { GCAddErrorAction } from "./GCAddError/interfaces";
 import { GCAddLoadingAction } from "./GCAddLoading/interfaces";
@@ -9,8 +10,6 @@ import { GCManageErrorAction } from "./GCManageError/interfaces";
 import { GCManageLoadingAction } from "./GCManageLoading/interfaces";
 import { GCRemoveErrorAction } from "./GCRemoveError/interfaces";
 import { GCRemoveLoadingAction } from "./GCRemoveLoading/interfaces";
-
-// TODO: Check comments and reducer
 
 // Parallel functionality and the management of the param are configured in each
 // action where it makes sense to be used.

@@ -1,4 +1,6 @@
+// CHECKED 1.0
 import { Reducer } from "react";
+
 import { GDAction } from "../../Actions/Data/interfaces";
 import { GDState } from "../../States/Data/_Interfaces/GenuxDataState";
 

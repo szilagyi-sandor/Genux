@@ -1,7 +1,7 @@
+// CHECKED 1.0
 import { ComponentType } from "react";
 
-// TODO: Avoid usage of any. The type would need to be an existential type,
-// which is not supported natively by TypeScript right now.
+// Explanation: #1.
 export interface ComponentComposerProps {
   components: ComposedComponent<any>[];
   level?: number;

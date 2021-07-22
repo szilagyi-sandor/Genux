@@ -6,7 +6,7 @@ import { LoginParam } from "./_Interfaces/LoginParam";
 import { createAsyncTO } from "_Helpers/createAsyncTO";
 
 export const loginF = async (param: LoginParam): Promise<User> => {
-  console.log("loginF called");
+  console.info("loginF called");
 
   await createAsyncTO(2000);
 

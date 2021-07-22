@@ -8,7 +8,7 @@ import { mockedProducts } from "./_mock";
 export const listProductsF = async (
   param: ListProductsParam
 ): Promise<PagedItems<Product>> => {
-  console.log("listProductsF called");
+  console.info("listProductsF called");
 
   const { skip, take, search } = param;
 
@@ -24,12 +24,10 @@ export const listProductsF = async (
 
   items = items.filter((_, index) => index >= skip && index < skip + take);
 
-  const products: PagedItems<Product> = {
+  return {
     skip,
     take,
     totalCount: totalCount,
     items: items,
   };
-
-  return products;
 };

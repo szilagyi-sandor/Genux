@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import React, { PropsWithChildren } from "react";
 
 import { ComponentComposerProps } from "./interfaces";
@@ -15,15 +16,21 @@ export default function ComponentComposer(
     return <>{children}</>;
   }
 
-  if (currentComposedComponent.blockChildren) {
+  const {
+    Component,
+    props: componentProps,
+    blockChildren,
+  } = currentComposedComponent;
+
+  if (blockChildren) {
     return null;
   }
 
   return (
-    <currentComposedComponent.Component {...currentComposedComponent.props}>
+    <Component {...componentProps}>
       <ComponentComposer {...props} level={_level + 1}>
         {children}
       </ComponentComposer>
-    </currentComposedComponent.Component>
+    </Component>
   );
 }

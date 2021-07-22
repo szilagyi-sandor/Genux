@@ -3,7 +3,7 @@ import { createAsyncTO } from "_Helpers/createAsyncTO";
 import { loginParamLocalStorageName } from "../_Constants/loginParamLocalStorageName";
 
 export const logoutF = async (): Promise<void> => {
-  console.log("logoutF called");
+  console.info("logoutF called");
 
   await createAsyncTO(2000);
 

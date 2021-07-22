@@ -5,7 +5,7 @@ import { MoveProductParam } from "./_Interfaces/MoveProductParam";
 import { mockedProducts } from "./_mock";
 
 export const moveProductF = async ({ id, reorderType }: MoveProductParam) => {
-  console.log("moveProductF called");
+  console.info("moveProductF called");
 
   await createAsyncTO(1500);
 

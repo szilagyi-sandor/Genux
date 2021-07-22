@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { ListProductsParam } from "Modules/Product/API/_Interfaces/ListProductsParam";
 import { Product } from "Modules/Product/_Interfaces/Product";
 import { Undefinedable } from "Modules/StateManagement/Genux/_Interfaces/Undefinedable";

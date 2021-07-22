@@ -7,7 +7,7 @@ import { mockedProducts } from "./_mock";
 export const getProductDetailsF = async ({
   id,
 }: GetProductDetailsParam): Promise<Product> => {
-  console.log("getProductDetailsF called");
+  console.info("getProductDetailsF called");
 
   await createAsyncTO(2000);
 

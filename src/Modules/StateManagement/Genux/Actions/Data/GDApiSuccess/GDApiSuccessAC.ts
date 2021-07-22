@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GDApiSuccessAction, GDApiSuccessActionPayload } from "./interfaces";
 
 export const GDApiSuccessAC = <P = undefined, D = undefined>(

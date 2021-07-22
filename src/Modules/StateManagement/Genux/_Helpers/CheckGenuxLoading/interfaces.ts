@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { Dispatch, Reducer, ReducerAction } from "react";
 
 export type LoadableStore = [

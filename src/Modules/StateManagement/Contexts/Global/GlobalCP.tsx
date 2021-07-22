@@ -3,10 +3,10 @@ import React, { PropsWithChildren } from "react";
 
 import { AuthCP } from "./Parts/Auth/AuthCP";
 import { useGlobalStores } from "./useGlobalStores";
-import { useGlobalACC } from "./useGlobalACC";
+import { useGlobalSHC } from "./useGlobalSHC";
 import { checkGenuxLoading } from "../../Genux/_Helpers/CheckGenuxLoading/checkGenuxLoading";
 import { ProductCP } from "./Parts/Product/ProductCP";
-import { cx3 } from "Modules/StateManagement/Genux/Components/ComponentComposer/_Helpers/createComposedComponents";
+import { cx3 } from "Modules/StateManagement/Genux/Components/ComponentComposer/_Helpers/createComposedComponent";
 import Loader from "Modules/Layout/Components/Loader/Loader";
 import ComponentComposer from "Modules/StateManagement/Genux/Components/ComponentComposer/ComponentComposer";
 
@@ -15,7 +15,7 @@ export default function GlobalCP({ children }: PropsWithChildren<{}>) {
   const globalStores = useGlobalStores();
 
   const { authStores, productStores } = globalStores;
-  const { authApiCallers, productApiCallers } = useGlobalACC(globalStores);
+  const { authSH, productSH } = useGlobalSHC(globalStores);
 
   // TS needs the {...globalStores} spreading.
   const loading = checkGenuxLoading({ ...globalStores });
@@ -28,11 +28,11 @@ export default function GlobalCP({ children }: PropsWithChildren<{}>) {
         components={[
           cx3(AuthCP, {
             authStores,
-            authApiCallers,
+            authSH,
           }),
           cx3(ProductCP, {
             productStores,
-            productApiCallers,
+            productSH,
           }),
         ]}
       >

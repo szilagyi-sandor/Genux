@@ -1,9 +1,12 @@
-import { Dispatch, ReducerAction, ReducerState } from "react";
-import { GCReducer } from "../Reducers/Connected/interfaces";
+// CHECKED 1.0
+import { Dispatch } from "react";
+
+import { GCAction } from "../Actions/Connected/interfaces";
+import { GCState } from "../States/Connected/_Interfaces/GenuxConnectedState";
 
 export type GenuxConnectedStore<P = undefined> = [
-  ReducerState<GCReducer<P>>,
-  Dispatch<ReducerAction<GCReducer<P>>>
+  GCState<P>,
+  Dispatch<GCAction<P>>
 ];
 
 export type GCStore<P = undefined> = GenuxConnectedStore<P>;

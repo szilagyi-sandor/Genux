@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GCAddErrorAction, GCAddErrorActionPayload } from "./interfaces";
 
 export const GCAddErrorAC = <T = undefined>(

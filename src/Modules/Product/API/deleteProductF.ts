@@ -4,7 +4,7 @@ import { DeleteProductParam } from "./_Interfaces/DeleteProductParam";
 import { mockedProducts } from "./_mock";
 
 export const deleteProductF = async ({ id }: DeleteProductParam) => {
-  console.log("deleteProductF called");
+  console.info("deleteProductF called");
 
   await createAsyncTO(1500);
 

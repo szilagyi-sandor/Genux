@@ -3,7 +3,7 @@ import React from "react";
 // CHECKED 1.0
 import "./UserBar.scss";
 
-import { useAuthApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authApiCallersContext";
+import { useAuthSH } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authSHContext";
 import { useLogoutSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/logoutContexts";
 import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/userContexts";
 
@@ -11,7 +11,7 @@ export function UserBar() {
   const { data } = useUserSC();
   const { loadingIds } = useLogoutSC();
 
-  const { logout } = useAuthApiCallers();
+  const { logout } = useAuthSH();
 
   return (
     <div className="userBar">

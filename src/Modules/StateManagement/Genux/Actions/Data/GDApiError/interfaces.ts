@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GenuxCommonError } from "Modules/StateManagement/Genux/_Interfaces/CommonError";
 
 export interface GDApiErrorAction<P = undefined> {

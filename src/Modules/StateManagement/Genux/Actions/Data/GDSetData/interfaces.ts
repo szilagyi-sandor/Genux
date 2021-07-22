@@ -1,3 +1,4 @@
+// CHECKED 1.0
 export interface GDSetDataAction<P = undefined, D = undefined> {
   type: "SET_DATA";
   payload: GDSetDataActionPayload<P, D>;

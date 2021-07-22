@@ -1,7 +1,7 @@
+// CHECKED 1.0
 import { Context } from "react";
 
-// TODO: Avoid usage of any. The type would need to be an existential type,
-// which is not supported natively by TypeScript right now.
+// Explanation: #1.
 export interface ContextComposerProps {
   contexts: ComposedContext<any>[];
   level?: number;

@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GCError } from "Modules/StateManagement/Genux/States/Connected/_Interfaces/GenuxConnectedError";
 
 export interface GCApiErrorAction<T = undefined> {
@@ -7,7 +8,7 @@ export interface GCApiErrorAction<T = undefined> {
 
 export interface GCApiErrorActionPayload<T = undefined> {
   error: GCError;
-  parallel?: boolean;
+  isParallel?: boolean;
   param?: {
     value?: T;
   };

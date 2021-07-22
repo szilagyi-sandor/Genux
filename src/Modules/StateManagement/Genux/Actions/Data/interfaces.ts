@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { ManageParamAction } from "../_Shared/ManageParam/interfaces";
 import { GDApiErrorAction } from "./GDApiError/interfaces";
 import { GDApiSensitiveErrorAction } from "./GDApiSensitiveError/interfaces";
@@ -12,10 +13,7 @@ import { GDSetDataKeepErrorAction } from "./GDSetDataKeepError/interfaces";
 import { GDSetErrorAction } from "./GDSetError/interfaces";
 import { GDSetSensitiveErrorAction } from "./GDSetSensitiveError/interfaces";
 
-// TODO: Check comments and reducer
-
-// This state does not support parallel usage, and the params are handled whenever a new data is recieved
-// and it makes sense.
+// This state does not support parallel usage and the params are handled whenever a new data is recieved.
 export type GenuxDataAction<P = undefined, D = undefined> =
   // Manages the state of the params and nothing else.
   | ManageParamAction<P>
@@ -34,7 +32,7 @@ export type GenuxDataAction<P = undefined, D = undefined> =
   // Sets the data without modifying loading or error.
   // Modifies: data, dataRecieved, latestParam.
   | GDSetDataKeepErrorAction<P, D>
-  // Sets the data without modifying anything else. // TODO: Modifies a few things tho
+  // Sets the data and dataRecieved without modifying anything else.
   | GDRefreshDataAction<D>
   // Usually handles the error of an API call.
   // Modifies: error, latestParam, loading (to false)
@@ -48,7 +46,7 @@ export type GenuxDataAction<P = undefined, D = undefined> =
   // Sets error and data without modifying loading.
   // Modifies: data, dataRecieved, error, latestParam, loading (to false)
   | GDSetSensitiveErrorAction<P, D>
-  // Sets error but does not modify anything else. TODO: does not? check all anything else statement.
+  // Sets error but does not modify anything else.
   | GDRefreshErrorAction;
 
 export type GDAction<P = undefined, D = undefined> = GenuxDataAction<P, D>;

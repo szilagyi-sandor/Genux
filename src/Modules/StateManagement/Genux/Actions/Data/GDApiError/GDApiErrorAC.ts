@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GDApiErrorAction, GDApiErrorActionPayload } from "./interfaces";
 
 export const GDApiErrorAC = <P = undefined>(

@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GCApiSuccessAction, GCApiSuccessActionPayload } from "./interfaces";
 
 export const GCApiSuccessAC = <T = undefined>(

@@ -1,3 +1,4 @@
+// CHECKED 1.0
 export interface GCManageLoadingAction<T = undefined> {
   type: "MANAGE_LOADING";
   payload: GCManageLoadingActionPayload<T>;

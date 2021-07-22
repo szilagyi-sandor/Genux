@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import React from "react";
 
 import "./Pager.scss";

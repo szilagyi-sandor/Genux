@@ -1,10 +1,12 @@
+// CHECKED 1.0
 import { GCAction } from "../../Actions/Connected/interfaces";
-import { defaultGCState } from "../../States/Connected/_Constants/defaultGCState";
-import { GCState } from "../../States/Connected/_Interfaces/GenuxItemState";
-import { removeFromArray } from "../../_Helpers/removeFromArray";
+import { defaultGCState } from "../../States/Connected/_Constants/defaultGenuxConnectedState";
+import { GCState } from "../../States/Connected/_Interfaces/GenuxConnectedState";
+import { addGCError } from "./_Helpers/addGCError";
+import { addGCLoading } from "./_Helpers/addGCLoading";
+import { removeGCError } from "./_Helpers/removeGCError";
+import { removeGCLoading } from "./_Helpers/removeGCLoading";
 
-// TODO: desctruction usage
-// TODO: Add helpers
 export const genuxConnectedReducer = <P = undefined>(
   state: GCState<P>,
   action: GCAction<P>
@@ -26,110 +28,135 @@ export const genuxConnectedReducer = <P = undefined>(
       };
 
     case "MANAGE_LOADING":
+      const { payload: manageLoadingPayload } = action;
+      const {
+        param: manageLoadingParam,
+        connectedIds: manageLoadingConnectedIds,
+      } = manageLoadingPayload;
+
       return {
         ...state,
-        loadingIds: action.payload.connectedIds,
-        // TODO: his param logic is almost in everywhere.
-        param: action.payload.param ? action.payload.param.value : state.param,
+        loadingIds: manageLoadingConnectedIds,
+        param: manageLoadingParam ? manageLoadingParam.value : state.param,
       };
 
     case "ADD_LOADING":
+      const { payload: addLoadingPayload } = action;
+      const {
+        isParallel: addLoadingIsParallel,
+        connectedId: addLoadingConnectedId,
+      } = addLoadingPayload;
+
       return {
         ...state,
-        // TODO: Make this better -> doing the same thing 2x
-        loadingIds:
-          !action.payload.parallel &&
-          state.loadingIds.includes(action.payload.connectedId)
-            ? state.loadingIds
-            : [...state.loadingIds, action.payload.connectedId],
+        loadingIds: addGCLoading(
+          state.loadingIds,
+          addLoadingConnectedId,
+          addLoadingIsParallel
+        ),
       };
 
     case "REMOVE_LOADING":
+      const { payload: removeLoadingPayload } = action;
+      const {
+        isParallel: removeLoadingIsParallel,
+        connectedId: removeLoadingConnectedId,
+        param: removeLoadingParam,
+      } = removeLoadingPayload;
+
       return {
         ...state,
-        loadingIds: action.payload.parallel
-          ? removeFromArray(
-              state.loadingIds,
-              (id) => id === action.payload.connectedId
-            )
-          : state.loadingIds.filter((id) => id !== action.payload.connectedId),
-        param: action.payload.param ? action.payload.param.value : state.param,
+        loadingIds: removeGCLoading(
+          state.loadingIds,
+          removeLoadingConnectedId,
+          removeLoadingIsParallel
+        ),
+        param: removeLoadingParam ? removeLoadingParam.value : state.param,
       };
 
     case "MANAGE_ERROR":
+      const { payload: manageErrorPayload } = action;
+      const { param: manageErrorParam, errors: manageErrorErrors } =
+        manageErrorPayload;
+
       return {
         ...state,
-        errors: action.payload.errors,
-        param: action.payload.param ? action.payload.param.value : state.param,
+        errors: manageErrorErrors,
+        param: manageErrorParam ? manageErrorParam.value : state.param,
       };
 
     case "ADD_ERROR":
+      const { payload: addErrorPayload } = action;
+      const {
+        param: addErrorParam,
+        error: addErrorError,
+        isParallel: addErrorIsParallel,
+      } = addErrorPayload;
+
       return {
         ...state,
-        errors:
-          !action.payload.parallel &&
-          state.errors.find(
-            (er) => er.connectedId === action.payload.error.connectedId
-          )
-            ? state.errors
-            : [...state.errors, action.payload.error],
-        param: action.payload.param ? action.payload.param.value : state.param,
+        errors: addGCError(state.errors, addErrorError, addErrorIsParallel),
+        param: addErrorParam ? addErrorParam.value : state.param,
       };
 
     case "REMOVE_ERROR":
+      const { payload: removeErrorPayload } = action;
+      const {
+        param: removeErrorParam,
+        isParallel: removeErrorIsParallel,
+        connectedId: removeErrorConnectedId,
+      } = removeErrorPayload;
+
       return {
         ...state,
-        errors: action.payload.parallel
-          ? removeFromArray(
-              state.errors,
-              (error) => error.connectedId === action.payload.connectedId
-            )
-          : state.errors.filter(
-              (error) => error.connectedId !== action.payload.connectedId
-            ),
-        param: action.payload.param ? action.payload.param.value : state.param,
+        errors: removeGCError(
+          state.errors,
+          removeErrorConnectedId,
+          removeErrorIsParallel
+        ),
+        param: removeErrorParam ? removeErrorParam.value : state.param,
       };
 
     case "API_SUCCESS":
+      const { payload: apiSuccessPayload } = action;
+      const {
+        isParallel: apiSuccessIsParallel,
+        connectedId: apiSuccessConnectedId,
+        param: apiSuccessParam,
+      } = apiSuccessPayload;
+
       return {
         ...state,
-        loadingIds: action.payload.parallel
-          ? removeFromArray(
-              state.loadingIds,
-              (id) => id === action.payload.connectedId
-            )
-          : state.loadingIds.filter((id) => id !== action.payload.connectedId),
-
-        errors: action.payload.parallel
-          ? removeFromArray(
-              state.errors,
-              (error) => error.connectedId === action.payload.connectedId
-            )
-          : state.errors.filter(
-              (error) => error.connectedId !== action.payload.connectedId
-            ),
-        param: action.payload.param ? action.payload.param.value : state.param,
+        loadingIds: removeGCLoading(
+          state.loadingIds,
+          apiSuccessConnectedId,
+          apiSuccessIsParallel
+        ),
+        errors: removeGCError(
+          state.errors,
+          apiSuccessConnectedId,
+          apiSuccessIsParallel
+        ),
+        param: apiSuccessParam ? apiSuccessParam.value : state.param,
       };
 
     case "API_ERROR":
+      const { payload: apiErrorPayload } = action;
+      const {
+        isParallel: apiErrorIsParallel,
+        error: apiErrorError,
+        param: apiErrorParam,
+      } = apiErrorPayload;
+
       return {
         ...state,
-        loadingIds: action.payload.parallel
-          ? removeFromArray(
-              state.loadingIds,
-              (id) => id === action.payload.error.connectedId
-            )
-          : state.loadingIds.filter(
-              (id) => id !== action.payload.error.connectedId
-            ),
-
-        errors:
-          !action.payload.parallel &&
-          state.errors.find(
-            (er) => er.connectedId === action.payload.error.connectedId
-          )
-            ? state.errors
-            : [...state.errors, action.payload.error],
+        loadingIds: removeGCLoading(
+          state.loadingIds,
+          apiErrorError.connectedId,
+          apiErrorIsParallel
+        ),
+        errors: addGCError(state.errors, apiErrorError, apiErrorIsParallel),
+        param: apiErrorParam ? apiErrorParam.value : state.param,
       };
 
     default:
@@ -138,3 +165,5 @@ export const genuxConnectedReducer = <P = undefined>(
       return state;
   }
 };
+
+export const gcReducer = genuxConnectedReducer;

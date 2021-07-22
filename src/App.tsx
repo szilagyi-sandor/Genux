@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import React from "react";
 
 import "./App.scss";
@@ -7,33 +8,6 @@ import { UserBar } from "./Modules/Auth/SmartComponents/UserBar/UserBar";
 import GlobalCP from "./Modules/StateManagement/Contexts/Global/GlobalCP";
 import ProductDetails from "Modules/Product/SmartComponents/Details/ProductDetails";
 import ProductList from "Modules/Product/SmartComponents/List/ProductList";
-
-// TODO: naming convetions. what is a reducer what is a store what is a context etc...
-
-// Notes:
-
-// Genux can be used for:
-// - sharing state between components
-// - caching data coming from the BE (AlwaysLoad, AlwaysCache, CacheReload)
-
-// External providers are not part of GlobalState and should be integrated.
-
-// ACCs should not have a dependency on something they modify, otherwise they will create infinite loops when combined with effects.
-// That's the reason we're not adding a check inside the ACCs if they are already loading with the same params.
-
-// GenuxDataStates do not support parallel calls. For example the first successful call will set the loading to false and will not
-// care about a second one still running. Scenarioes like this should be handled manually.
-// There's an example on how to handle them at useListProductsACC and useGetProductDetailsACC.
-
-// TODO: Double comments should be put into parent a parent folder. any -> ccc solution
-// TODO: namings -> when shorten and use shorten version everywhere by not exporting the longer one.
-// TODO: Store as interface for easier usage + disptach + genux state !! make sure it's all easy to understand
-// PARALLEL ACTIONS ARE NOT USED ANYWHERE -> CHECK DISABLED BUTTON
-
-// TODO: Future improvements:
-// - ACC templates
-// - Parallel call prevention hook -> usecallback with an extra useref
-// - Axios instead of default fetch
 
 function App() {
   return (
@@ -59,26 +33,84 @@ function App() {
   );
 }
 
-// TODO:
+///////////////////////////////
+// Abbreviations
+
 // CP - ContextProvider
 // AC - ActionCreator
 // SC - StateContext
 // DC - DispatchContext
-// ACC - ApiCallerCreator
-// fooBarF - fooBarFetcher
+// F - Fetcher
 
-// GDState - GenuxDataState
-// GDReducer - GenuxDataReducer
+// SH - StateHandler (Interface)
+// ASH - AsyncStateHandler (Interface)
+// SHC - StateHandlerCreator (asnyc and sync) (Interface)
+// DSH - DatalessStateHandler (Interface)
+// DASH - DatalessAsyncStateHandler (Interface)
+// PSH - ParamlessStateHandler (Interface)
+// PASH - ParamlessAsyncStateHandler (Interface)
+// SSH - SimpleStateHandler (Interface)
+// SASH - SimpleAsyncStateHandler (Interface)
 
-// ACT - ApiCallerTemplate
+// GD - GenuxData
+// GDState - GenuxDataState (Interface)
+// GDReducer - GenuxDataReducer (Interface)
+// createGDContextPair - createGenuxDataContextPair
+// GDStore - GenuxDataStore (Interface)
+// useGDReducer - useGenuxDataReducer
+// gdReducer - genuxDataReducer
 
-// TODO:
+// GC - GenuxConnected
+// GCState - GenuxConnectedState (Interface)
+// GCReducer - GenuxConnectedReducer (Interface)
+// createGCContextPair - createGenuxConnectedContextPair
+// GCStore - GenuxConnectedStore (Interface)
+// useGCReducer - useGenuxConnectedReducer
+// gcReducer - genuxConnectedReducer
+
+// cx3 - createComposedComponents
+// cx4 - createComposedContextComponents
+
+///////////////////////////////
+// Notes:
+
+// Store means state + dispatch together stored in an array.
+
+// Genux can be used for:
+// - sharing state between components if they are not close and they are independent
+// - caching data (keep after unmount) coming from the BE (AlwaysLoad, AlwaysCache, CacheReload)
+
+// External providers that are not part of GlobalState and should not be integrated.
+
+// SHs should not have a dependency on something they modify, otherwise they will create infinite loops when combined with effects.
+// That's the reason we're not adding a check inside the ACCs if they are already loading with the same params.
+
+// GenuxDataStates do not support parallel calls. For example the first successful call will set the loading to false and will not
+// care about a second one still running. Scenarios like this should be handled manually.
+// There's an example on how to handle them at useListProductsACC and useGetProductDetailsACC.
+
+///////////////////////////////
+// Explanation Comments:
+
+// #1: // TODO: Avoid usage of any. The type would need to be an existential type,
+// which is not supported natively by TypeScript at the moment
+
+// #2: This function is only used to preserve type safeness. If we solve the
+// problem that occurs in #1 this will not be neccessary.
+
+// #3: It's common to store the dispatch and the state in 2 different
+// contexts, to prevent unneccessary rerenders. This helps
+// reduce boiler for that.
+
+///////////////////////////////
+// Creatiom steps:
+
 // 1. Product module + interfaces
 // 2. Fetchers
 // 3. Contexts
 // 4. interfaces.ts
 // 5. Stores
-// 6. ApiCaller Context
+// 6. StateHandler Context
 // 7. CP
 // 8. Connecting stores to global
 // 9. ACCs 1 by 1

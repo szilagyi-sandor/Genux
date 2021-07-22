@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GCApiErrorAction, GCApiErrorActionPayload } from "./interfaces";
 
 export const GCApiErrorAC = <T = undefined>(

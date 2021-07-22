@@ -1,8 +1,9 @@
+// CHECKED 1.0
 import React from "react";
 
 import "./ProductFilter.scss";
 
-import { useProductApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productApiCallersContext";
+import { useProductSH } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productSHContext";
 import { defaultProductListParam } from "Modules/Product/_Constants/defaultProductListParam";
 import {
   useProductListDC,
@@ -11,9 +12,11 @@ import {
 import { manageParamAC } from "Modules/StateManagement/Genux/Actions/_Shared/ManageParam/manageParamAC";
 
 export default function ProductFilter() {
-  const { param } = useProductListSC();
+  const { param, dataRecieved } = useProductListSC();
+
   const productDispatch = useProductListDC();
-  const { listProducts } = useProductApiCallers();
+
+  const { listProducts } = useProductSH();
 
   return (
     <div className="productFilter">
@@ -42,7 +45,9 @@ export default function ProductFilter() {
           />
         </div>
 
-        <button type="submit">Search</button>
+        <button type="submit" disabled={!dataRecieved}>
+          Search
+        </button>
       </form>
     </div>
   );

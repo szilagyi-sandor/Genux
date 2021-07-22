@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { GCAddLoadingAction, GCAddLoadingActionPayload } from "./interfaces";
 
 export const GCAddLoadingAC = <T = undefined>(

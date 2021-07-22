@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import React, { PropsWithChildren } from "react";
 
 import { ContextComposerProps } from "./interfaces";
@@ -14,17 +15,21 @@ export default function ContextComposer(
     return <>{children}</>;
   }
 
-  if (currentComposedContext.blockChildren) {
+  const {
+    context: { Provider },
+    blockChildren,
+    value,
+  } = currentComposedContext;
+
+  if (blockChildren) {
     return null;
   }
 
   return (
-    <currentComposedContext.context.Provider
-      value={currentComposedContext.value}
-    >
+    <Provider value={value}>
       <ContextComposer {...props} level={_level + 1}>
         {children}
       </ContextComposer>
-    </currentComposedContext.context.Provider>
+    </Provider>
   );
 }

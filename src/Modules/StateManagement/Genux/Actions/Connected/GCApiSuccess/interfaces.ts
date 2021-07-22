@@ -1,3 +1,4 @@
+// CHECKED 1.0
 export interface GCApiSuccessAction<T = undefined> {
   type: "API_SUCCESS";
   payload: GCApiSuccessActionPayload<T>;
@@ -5,7 +6,7 @@ export interface GCApiSuccessAction<T = undefined> {
 
 export interface GCApiSuccessActionPayload<T = undefined> {
   connectedId: string | number;
-  parallel?: boolean;
+  isParallel?: boolean;
   param?: {
     value?: T;
   };

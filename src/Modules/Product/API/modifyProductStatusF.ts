@@ -8,7 +8,7 @@ export const modifyProductStatusF = async ({
   id,
   status,
 }: ModifyProductStatusParam) => {
-  console.log("modifyProductStatusF called");
+  console.info("modifyProductStatusF called");
 
   await createAsyncTO(1500);
 

@@ -8,7 +8,7 @@ import {
   useLoginSC,
 } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/loginContexts";
 import { manageParamAC } from "Modules/StateManagement/Genux/Actions/_Shared/ManageParam/manageParamAC";
-import { useAuthApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authApiCallersContext";
+import { useAuthSH } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/authSHContext";
 import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/userContexts";
 
 export default function LoginForm() {
@@ -18,7 +18,7 @@ export default function LoginForm() {
 
   const loginDispatch = useLoginDC();
 
-  const { login } = useAuthApiCallers();
+  const { login } = useAuthSH();
 
   if (data) {
     return null;

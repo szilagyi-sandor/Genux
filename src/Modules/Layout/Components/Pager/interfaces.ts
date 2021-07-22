@@ -1,3 +1,4 @@
+// CHECKED 1.0
 export interface PagerProps {
   currentPage: number;
   pageCount: number;

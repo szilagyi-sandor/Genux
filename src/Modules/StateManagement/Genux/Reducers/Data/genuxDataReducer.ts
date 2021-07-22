@@ -1,5 +1,6 @@
+// CHECKED 1.0
 import { GDAction } from "../../Actions/Data/interfaces";
-import { createDefaultGDState } from "../../States/Data/_Helpers/createDefaultGDState";
+import { createDefaultGDState } from "../../States/Data/_Helpers/createDefaultGenuxDataState";
 import { GDState } from "../../States/Data/_Interfaces/GenuxDataState";
 
 export const genuxDataReducer = <P = undefined, D = undefined>(
@@ -129,3 +130,5 @@ export const genuxDataReducer = <P = undefined, D = undefined>(
       return state;
   }
 };
+
+export const gdReducer = genuxDataReducer;

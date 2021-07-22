@@ -1,3 +1,4 @@
+// CHECKED 1.0
 export const removeFromArray = <T>(
   arr: T[],
   func: (item: T) => boolean,

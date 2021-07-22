@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import {
   GCManageLoadingAction,
   GCManageLoadingActionPayload,

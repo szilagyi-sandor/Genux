@@ -3,19 +3,19 @@ import React, { useEffect, useRef, useState } from "react";
 
 import "./ProductList.scss";
 
+import {
+  useProductDetailsDC,
+  useProductDetailsSC,
+} from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productDetailsContexts";
 import { defaultProductListParam } from "Modules/Product/_Constants/defaultProductListParam";
 import { useUserSC } from "Modules/StateManagement/Contexts/Global/Parts/Auth/Parts/userContexts";
-import { useProductApiCallers } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productApiCallersContext";
+import { useProductSH } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productSHContext";
 import { useProductListSC } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productListContexts";
 import { productStatuses } from "Modules/Product/_Constants/productStatuses";
 import { useProductStatusModificationSC } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productStatusModificationContexts";
 import { productReorderTypes } from "Modules/Product/_Constants/productReorderTypes";
 import { useProductMovementSC } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productMovementContexts";
 import { useProductDeletionSC } from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productDeletionContexts";
-import {
-  useProductDetailsDC,
-  useProductDetailsSC,
-} from "Modules/StateManagement/Contexts/Global/Parts/Product/Parts/productDetailsContexts";
 import { GDSetDataAC } from "Modules/StateManagement/Genux/Actions/Data/GDSetData/GDSetDataAC";
 import { GetProductDetailsParam } from "Modules/Product/API/_Interfaces/GetProductDetailsParam";
 import { Undefinedable } from "Modules/StateManagement/Genux/_Interfaces/Undefinedable";
@@ -28,7 +28,7 @@ import ProductFilter from "../Filter/ProductFilter";
 
 export default function ProductList() {
   const { data: user } = useUserSC();
-  const { data, error, latestParam, loading } = useProductListSC();
+  const { data, error, latestParam } = useProductListSC();
   const { data: details } = useProductDetailsSC();
   const { loadingIds: statusLoadingIds, errors: statusErrors } =
     useProductStatusModificationSC();
@@ -45,12 +45,12 @@ export default function ProductList() {
     moveProduct,
     deleteProduct,
     getProductDetails,
-  } = useProductApiCallers();
+  } = useProductSH();
 
   const allErrors = [...statusErrors, ...movementErrors, ...deletionErrors];
   const allErrorIds = allErrors.map((e) => e.connectedId);
 
-  // Creating a call counter to make parallel calls possible.
+  // Creating a call counter to make track parallel calls.
   const callCounterRef = useRef<ProductCallCounter>({
     known: 0,
     // Has to be -1 for the first initial run.
@@ -58,8 +58,7 @@ export default function ProductList() {
   });
 
   // Storing the param in state as a mirror. This mirror is needed because this is
-  // only the state of this pager. if this modified in a form or something,
-  // we dont want this to be modified.
+  // only the state of this pager. If it's modified e.g. in a form, this should not be modified.
   const [latestParamMirror, setLatestParamMirror] =
     useState<Undefinedable<ListProductsParam>>(undefined);
 
@@ -76,7 +75,7 @@ export default function ProductList() {
 
   // We keep track of latestParam modifications, but if this runs more than
   // that it means someone else updated it. In that case we need to update
-  // the state too.
+  // the state manually here as well.
   useEffect(() => {
     if (!latestParam) {
       return;
@@ -99,7 +98,7 @@ export default function ProductList() {
 
   // Right usage is this!!
   // This is all you need if you cancel the previous calls in useListProductsACC.
-  // That's because the latest param will only be updated when the last one finished.
+  // That's because the latestParam will only be updated when the last one finished.
   // useEffect(() => {
   //   setLatestParamMirror(latestParam);
   // }, [latestParam]);
@@ -274,7 +273,6 @@ export default function ProductList() {
           <Pager
             currentPage={currentPage}
             pageCount={pageCount}
-            disabled={!!latestParam?.search && loading}
             setPage={(page) => {
               const skip = defaultProductListParam.take * (page - 1);
               const newListParam = {

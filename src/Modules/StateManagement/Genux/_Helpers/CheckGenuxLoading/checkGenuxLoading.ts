@@ -1,3 +1,4 @@
+// CHECKED 1.0
 import { ComposedLoadableStores, LoadableStore } from "./interfaces";
 
 export const checkGenuxLoading = (
@@ -21,6 +22,7 @@ export const checkGenuxLoading = (
 
     if (Array.isArray(store)) {
       const storeState = store[0];
+      const { loading, loadingIds } = storeState;
 
       // Handling a store.
       if (mapperFunc) {
@@ -30,10 +32,7 @@ export const checkGenuxLoading = (
         }
       } else {
         // Automatic check.
-        if (
-          storeState.loading ||
-          (storeState.loadingIds && storeState.loadingIds.length > 0)
-        ) {
+        if (loading || (loadingIds && loadingIds.length > 0)) {
           return true;
         }
       }
