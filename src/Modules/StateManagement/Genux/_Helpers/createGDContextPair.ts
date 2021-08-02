@@ -7,9 +7,12 @@ import { GDState } from "../States/Data/_Interfaces/GenuxDataState";
 
 // Explanation: #3.
 export const createGDContextPair = <P = undefined, D = undefined>(
-  defaultData: D
+  defaultData: D,
+  setDataRecieved: boolean = false
 ) => ({
-  state: createContext<GDState<P, D>>(createDefaultGDState(defaultData)),
+  state: createContext<GDState<P, D>>(
+    createDefaultGDState(defaultData, setDataRecieved)
+  ),
   dispatch: createContext<Dispatch<GDAction<P, D>>>(() =>
     console.warn("Context for dispatch was not provided.")
   ),

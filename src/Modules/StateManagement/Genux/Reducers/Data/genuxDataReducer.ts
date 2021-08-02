@@ -15,7 +15,12 @@ export const genuxDataReducer = <P = undefined, D = undefined>(
       };
 
     case "INIT":
-      return createDefaultGDState(action.payload);
+      const { payload: initPayload } = action;
+
+      return createDefaultGDState(
+        initPayload.data,
+        initPayload.setDataRecieved
+      );
 
     case "MANAGE":
       return {
